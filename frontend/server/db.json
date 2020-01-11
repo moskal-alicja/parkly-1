@@ -1,0 +1,612 @@
+{
+  "parkings": [
+    {
+      "id": 1,
+      "city": "Xitiangezhuang",
+      "street": "Eggendart",
+      "number": "93",
+      "spotsNumber": 1,
+      "price": 1,
+      "opens": "2019-01-01T11:21:23Z",
+      "closes": "2019-01-09T05:58:29Z"
+    },
+    {
+      "id": 2,
+      "city": "Lumatil",
+      "street": "1st",
+      "number": "79766",
+      "spotsNumber": 2,
+      "price": 2,
+      "opens": "2019-01-01T21:02:03Z",
+      "closes": "2019-01-09T01:25:46Z"
+    },
+    {
+      "id": 3,
+      "city": "Chocos",
+      "street": "Montana",
+      "number": "9",
+      "spotsNumber": 3,
+      "price": 3,
+      "opens": "2019-01-01T08:10:30Z",
+      "closes": "2019-01-09T03:44:03Z"
+    },
+    {
+      "id": 4,
+      "city": "Mazańcowice",
+      "street": "High Crossing",
+      "number": "482",
+      "spotsNumber": 4,
+      "price": 4,
+      "opens": "2019-01-01T21:35:18Z",
+      "closes": "2019-01-09T19:03:16Z"
+    },
+    {
+      "id": 5,
+      "city": "Lenghu",
+      "street": "Upham",
+      "number": "97",
+      "spotsNumber": 5,
+      "price": 5,
+      "opens": "2019-01-01T02:02:07Z",
+      "closes": "2019-01-09T19:44:21Z"
+    },
+    {
+      "id": 6,
+      "city": "Narutochō-mitsuishi",
+      "street": "Meadow Vale",
+      "number": "23",
+      "spotsNumber": 6,
+      "price": 6,
+      "opens": "2019-01-01T21:58:01Z",
+      "closes": "2019-01-09T19:45:06Z"
+    },
+    {
+      "id": 7,
+      "city": "Xinying",
+      "street": "Kim",
+      "number": "078",
+      "spotsNumber": 7,
+      "price": 7,
+      "opens": "2019-01-01T17:50:39Z",
+      "closes": "2019-01-09T17:49:40Z"
+    },
+    {
+      "id": 8,
+      "city": "Villeneuve-la-Garenne",
+      "street": "Village",
+      "number": "68037",
+      "spotsNumber": 8,
+      "price": 8,
+      "opens": "2019-01-01T17:42:59Z",
+      "closes": "2019-01-09T16:55:41Z"
+    },
+    {
+      "id": 9,
+      "city": "Al Ḩajar al Aswad",
+      "street": "Merchant",
+      "number": "25",
+      "spotsNumber": 9,
+      "price": 9,
+      "opens": "2019-01-01T11:36:44Z",
+      "closes": "2019-01-09T08:29:02Z"
+    },
+    {
+      "id": 10,
+      "city": "Zhenchuan",
+      "street": "Scofield",
+      "number": "0",
+      "spotsNumber": 10,
+      "price": 10,
+      "opens": "2019-01-01T18:34:31Z",
+      "closes": "2019-01-09T08:35:25Z"
+    },
+    {
+      "id": 11,
+      "city": "Naviraí",
+      "street": "Claremont",
+      "number": "6",
+      "spotsNumber": 11,
+      "price": 11,
+      "opens": "2019-01-01T14:35:03Z",
+      "closes": "2019-01-09T03:03:05Z"
+    },
+    {
+      "id": 12,
+      "city": "Kuncen",
+      "street": "Lotheville",
+      "number": "93",
+      "spotsNumber": 12,
+      "price": 12,
+      "opens": "2019-01-01T16:44:38Z",
+      "closes": "2019-01-09T01:03:22Z"
+    },
+    {
+      "id": 13,
+      "city": "Pattani",
+      "street": "Farmco",
+      "number": "1155",
+      "spotsNumber": 13,
+      "price": 13,
+      "opens": "2019-01-01T22:13:27Z",
+      "closes": "2019-01-09T13:35:57Z"
+    },
+    {
+      "id": 14,
+      "city": "Pentre",
+      "street": "Stephen",
+      "number": "5",
+      "spotsNumber": 14,
+      "price": 14,
+      "opens": "2019-01-01T17:28:34Z",
+      "closes": "2019-01-09T22:54:58Z"
+    },
+    {
+      "id": 15,
+      "city": "Vahdat",
+      "street": "Eastwood",
+      "number": "5174",
+      "spotsNumber": 15,
+      "price": 15,
+      "opens": "2019-01-01T21:42:59Z",
+      "closes": "2019-01-09T19:48:32Z"
+    },
+    {
+      "id": 16,
+      "city": "Lakhdenpokh’ya",
+      "street": "Hanson",
+      "number": "33400",
+      "spotsNumber": 16,
+      "price": 16,
+      "opens": "2019-01-01T20:16:42Z",
+      "closes": "2019-01-09T23:06:38Z"
+    },
+    {
+      "id": 17,
+      "city": "Khulm",
+      "street": "Merchant",
+      "number": "42",
+      "spotsNumber": 17,
+      "price": 17,
+      "opens": "2019-01-01T15:02:55Z",
+      "closes": "2019-01-09T02:53:56Z"
+    },
+    {
+      "id": 18,
+      "city": "Magersari",
+      "street": "Starling",
+      "number": "78344",
+      "spotsNumber": 18,
+      "price": 18,
+      "opens": "2019-01-01T14:45:38Z",
+      "closes": "2019-01-09T18:04:31Z"
+    },
+    {
+      "id": 19,
+      "city": "Lubenia",
+      "street": "Arapahoe",
+      "number": "744",
+      "spotsNumber": 19,
+      "price": 19,
+      "opens": "2019-01-01T01:12:48Z",
+      "closes": "2019-01-09T15:54:01Z"
+    },
+    {
+      "id": 20,
+      "city": "Bangunharja",
+      "street": "Crest Line",
+      "number": "9",
+      "spotsNumber": 20,
+      "price": 20,
+      "opens": "2019-01-01T10:21:59Z",
+      "closes": "2019-01-09T13:07:27Z"
+    },
+    {
+      "id": 21,
+      "city": "Yangping",
+      "street": "Upham",
+      "number": "47",
+      "spotsNumber": 21,
+      "price": 21,
+      "opens": "2019-01-01T05:04:24Z",
+      "closes": "2019-01-09T18:00:59Z"
+    },
+    {
+      "id": 22,
+      "city": "Doña Remedios Trinidad",
+      "street": "Parkside",
+      "number": "43",
+      "spotsNumber": 22,
+      "price": 22,
+      "opens": "2019-01-01T16:25:48Z",
+      "closes": "2019-01-09T19:12:55Z"
+    },
+    {
+      "id": 23,
+      "city": "Sydney",
+      "street": "Hollow Ridge",
+      "number": "5096",
+      "spotsNumber": 23,
+      "price": 23,
+      "opens": "2019-01-01T18:49:18Z",
+      "closes": "2019-01-09T19:15:01Z"
+    },
+    {
+      "id": 24,
+      "city": "Tbêng Méanchey",
+      "street": "Dapin",
+      "number": "35242",
+      "spotsNumber": 24,
+      "price": 24,
+      "opens": "2019-01-01T23:11:24Z",
+      "closes": "2019-01-09T20:21:42Z"
+    },
+    {
+      "id": 25,
+      "city": "Xianghu",
+      "street": "Lake View",
+      "number": "22763",
+      "spotsNumber": 25,
+      "price": 25,
+      "opens": "2019-01-01T21:35:53Z",
+      "closes": "2019-01-09T04:22:49Z"
+    },
+    {
+      "id": 26,
+      "city": "Huambalpa",
+      "street": "American Ash",
+      "number": "32244",
+      "spotsNumber": 26,
+      "price": 26,
+      "opens": "2019-01-01T23:37:06Z",
+      "closes": "2019-01-09T04:58:17Z"
+    },
+    {
+      "id": 27,
+      "city": "Sława",
+      "street": "Forest",
+      "number": "553",
+      "spotsNumber": 27,
+      "price": 27,
+      "opens": "2019-01-01T11:21:46Z",
+      "closes": "2019-01-09T13:43:50Z"
+    },
+    {
+      "id": 28,
+      "city": "San Lorenzo",
+      "street": "Maple Wood",
+      "number": "064",
+      "spotsNumber": 28,
+      "price": 28,
+      "opens": "2019-01-01T19:13:34Z",
+      "closes": "2019-01-09T09:00:12Z"
+    },
+    {
+      "id": 29,
+      "city": "Sacramento",
+      "street": "Fairfield",
+      "number": "888",
+      "spotsNumber": 29,
+      "price": 29,
+      "opens": "2019-01-01T07:30:10Z",
+      "closes": "2019-01-09T00:28:44Z"
+    },
+    {
+      "id": 30,
+      "city": "Midland",
+      "street": "Hoffman",
+      "number": "06",
+      "spotsNumber": 30,
+      "price": 30,
+      "opens": "2019-01-01T17:41:21Z",
+      "closes": "2019-01-09T10:45:19Z"
+    },
+    {
+      "id": 31,
+      "city": "Gubo",
+      "street": "Reinke",
+      "number": "91114",
+      "spotsNumber": 31,
+      "price": 31,
+      "opens": "2019-01-01T19:21:25Z",
+      "closes": "2019-01-09T11:12:35Z"
+    },
+    {
+      "id": 32,
+      "city": "Jablonec nad Nisou",
+      "street": "Aberg",
+      "number": "3377",
+      "spotsNumber": 32,
+      "price": 32,
+      "opens": "2019-01-01T23:56:03Z",
+      "closes": "2019-01-09T18:44:49Z"
+    },
+    {
+      "id": 33,
+      "city": "Gonghe",
+      "street": "Everett",
+      "number": "98",
+      "spotsNumber": 33,
+      "price": 33,
+      "opens": "2019-01-01T20:43:02Z",
+      "closes": "2019-01-09T00:04:13Z"
+    },
+    {
+      "id": 34,
+      "city": "Shahezi",
+      "street": "Meadow Ridge",
+      "number": "0778",
+      "spotsNumber": 34,
+      "price": 34,
+      "opens": "2019-01-01T08:13:41Z",
+      "closes": "2019-01-09T22:51:38Z"
+    },
+    {
+      "id": 35,
+      "city": "Baunu-Timbangan",
+      "street": "Novick",
+      "number": "5123",
+      "spotsNumber": 35,
+      "price": 35,
+      "opens": "2019-01-01T19:01:08Z",
+      "closes": "2019-01-09T18:24:15Z"
+    },
+    {
+      "id": 36,
+      "city": "Neundeut",
+      "street": "Hintze",
+      "number": "6914",
+      "spotsNumber": 36,
+      "price": 36,
+      "opens": "2019-01-01T06:34:01Z",
+      "closes": "2019-01-09T11:15:36Z"
+    },
+    {
+      "id": 37,
+      "city": "Khairpur",
+      "street": "Emmet",
+      "number": "3",
+      "spotsNumber": 37,
+      "price": 37,
+      "opens": "2019-01-01T19:52:35Z",
+      "closes": "2019-01-09T10:02:33Z"
+    },
+    {
+      "id": 38,
+      "city": "Las Palmas",
+      "street": "Carioca",
+      "number": "62162",
+      "spotsNumber": 38,
+      "price": 38,
+      "opens": "2019-01-01T22:19:05Z",
+      "closes": "2019-01-09T15:30:19Z"
+    },
+    {
+      "id": 39,
+      "city": "Rinang",
+      "street": "Main",
+      "number": "96232",
+      "spotsNumber": 39,
+      "price": 39,
+      "opens": "2019-01-01T17:14:10Z",
+      "closes": "2019-01-09T01:37:03Z"
+    },
+    {
+      "id": 40,
+      "city": "Zaoxi",
+      "street": "Northport",
+      "number": "67457",
+      "spotsNumber": 40,
+      "price": 40,
+      "opens": "2019-01-01T02:38:08Z",
+      "closes": "2019-01-09T19:08:55Z"
+    },
+    {
+      "id": 41,
+      "city": "El’brus",
+      "street": "Menomonie",
+      "number": "595",
+      "spotsNumber": 41,
+      "price": 41,
+      "opens": "2019-01-01T21:07:25Z",
+      "closes": "2019-01-09T05:08:16Z"
+    },
+    {
+      "id": 42,
+      "city": "Pangkalan",
+      "street": "Northridge",
+      "number": "128",
+      "spotsNumber": 42,
+      "price": 42,
+      "opens": "2019-01-01T04:26:15Z",
+      "closes": "2019-01-09T13:25:35Z"
+    },
+    {
+      "id": 43,
+      "city": "Macheng",
+      "street": "Melby",
+      "number": "62",
+      "spotsNumber": 43,
+      "price": 43,
+      "opens": "2019-01-01T09:26:17Z",
+      "closes": "2019-01-09T14:46:06Z"
+    },
+    {
+      "id": 44,
+      "city": "Greensboro",
+      "street": "Waywood",
+      "number": "04",
+      "spotsNumber": 44,
+      "price": 44,
+      "opens": "2019-01-01T04:55:10Z",
+      "closes": "2019-01-09T07:23:44Z"
+    },
+    {
+      "id": 45,
+      "city": "Borūjen",
+      "street": "Russell",
+      "number": "9",
+      "spotsNumber": 45,
+      "price": 45,
+      "opens": "2019-01-01T01:26:32Z",
+      "closes": "2019-01-09T13:27:49Z"
+    },
+    {
+      "id": 46,
+      "city": "Utrecht (stad)",
+      "street": "Prairieview",
+      "number": "02343",
+      "spotsNumber": 46,
+      "price": 46,
+      "opens": "2019-01-01T04:30:47Z",
+      "closes": "2019-01-09T20:21:12Z"
+    },
+    {
+      "id": 47,
+      "city": "Fengshou",
+      "street": "Dahle",
+      "number": "25",
+      "spotsNumber": 47,
+      "price": 47,
+      "opens": "2019-01-01T06:26:45Z",
+      "closes": "2019-01-09T18:09:45Z"
+    },
+    {
+      "id": 48,
+      "city": "Estrada",
+      "street": "Hoard",
+      "number": "9228",
+      "spotsNumber": 48,
+      "price": 48,
+      "opens": "2019-01-01T06:39:13Z",
+      "closes": "2019-01-09T19:57:36Z"
+    },
+    {
+      "id": 49,
+      "city": "Kudang",
+      "street": "Red Cloud",
+      "number": "91788",
+      "spotsNumber": 49,
+      "price": 49,
+      "opens": "2019-01-01T06:59:54Z",
+      "closes": "2019-01-09T02:29:18Z"
+    },
+    {
+      "id": 50,
+      "city": "Khulna",
+      "street": "Mallard",
+      "number": "34720",
+      "spotsNumber": 50,
+      "price": 50,
+      "opens": "2019-01-01T12:18:39Z",
+      "closes": "2019-01-09T18:27:06Z"
+    },
+    {
+      "id": 1578663200290,
+      "city": "Warszawa",
+      "street": "Koszykowa",
+      "number": "7",
+      "spotsNumber": "10",
+      "price": "100",
+      "opens": "2004-02-12T05:00:00.000Z",
+      "closes": "2004-02-12T17:00:00.000Z"
+    }
+  ],
+  "users": [
+    {
+      "id": 1578061438150,
+      "email": "as@as.pl",
+      "password": "00000000",
+      "phoneNumber": "606973835",
+      "name": "Dymitr",
+      "surname": "Lubczyk"
+    },
+    {
+      "id": 1578061634304,
+      "email": "as@as.pr",
+      "password": "00000000",
+      "phoneNumber": "444000111",
+      "name": "Zosia",
+      "surname": "Samosia"
+    },
+    {
+      "id": 1578062079470,
+      "email": "dymitrlubczyk@op.pl",
+      "password": "00000000",
+      "phoneNumber": "333000111",
+      "name": "Ala",
+      "surname": "Moskal"
+    },
+    {
+      "id": 1578062950818,
+      "email": "asd@asd.pl",
+      "password": "00000000",
+      "phoneNumber": "345678901",
+      "name": "Piotr",
+      "surname": "Sowinski"
+    },
+    {
+      "id": 1578063148885,
+      "email": "koza@koza.koza",
+      "password": "kozakoza",
+      "phoneNumber": "000888111",
+      "name": "Koza",
+      "surname": "Moza"
+    },
+    {
+      "id": 1578063367827,
+      "email": "okon@okon.ko",
+      "password": "12345678",
+      "phoneNumber": "000222111",
+      "name": "Okon",
+      "surname": "Noko"
+    },
+    {
+      "id": 1578066130195,
+      "email": "r.luczyk@op.pl",
+      "password": "haslohaslo",
+      "phoneNumber": "345678901",
+      "name": "Robert",
+      "surname": "Lubczyk"
+    },
+    {
+      "id": 1578070654942,
+      "email": "ala@moska.pl",
+      "password": "moskala123",
+      "phoneNumber": "456789345",
+      "name": "Moskala",
+      "surname": "Askal"
+    },
+    {
+      "id": 1578150858370,
+      "email": "hania@adamczyk.pl",
+      "password": "czikocziko123",
+      "phoneNumber": "666999000",
+      "name": "Hania",
+      "surname": "Adamczyk"
+    },
+    {
+      "id": 1578383115070,
+      "email": "as@ko.pl",
+      "password": "12345678",
+      "phoneNumber": "123456789",
+      "name": "Ala",
+      "surname": "Moskal"
+    },
+    {
+      "id": 1578408999593,
+      "email": "kolo@kwium.pl",
+      "password": "12345678",
+      "phoneNumber": "897012453",
+      "name": "Kolo",
+      "surname": "Kwium"
+    },
+    {
+      "id": 1578663270638,
+      "email": "miki@miki.pl",
+      "password": "000000000",
+      "phoneNumber": "999000333",
+      "name": "Miki",
+      "surname": "Miki"
+    }
+  ]
+}
