@@ -30,7 +30,6 @@ const styles = {
         transform: 'translate(-50%, -50%)',
         height: '550px',
         width: '450px',
-        square:'true',
         backgroundColor: '#ffffff'
 
     },
@@ -67,6 +66,10 @@ const styles = {
     timer:{
         width:'30%',
         margin:'10px',
+    },
+
+    specialCursor:{
+        cursor:'pointer'
     }
 
 
@@ -96,6 +99,10 @@ class AddParking extends React.Component
             number:address.number,
             addressModal:false
         })
+    }
+
+    clickCancel=()=>{
+        this.setState({addressModal:false})
     }
     clickAdd=()=>{
         const {
@@ -147,14 +154,20 @@ class AddParking extends React.Component
             field,
             button,
             header,
-            timer
+            timer,
+            specialCursor
         }=this.props.classes
         
         
         return(
             <>
             {addressModal?
-            <AddressModal setAddress={this.setAddress} city={city} street={street} number={number}/>:
+            <AddressModal 
+                setAddress={this.setAddress} 
+                clickCancel={this.clickCancel}
+                city={city} 
+                street={street} 
+                number={number}/>:
             <>
             <Header/>
             <Card
@@ -165,7 +178,9 @@ class AddParking extends React.Component
                     direction="column"
                     justify="center"
                     alignItems="center">
-                    <Typography className={header}>
+                    <Typography 
+                        className={header}
+                        vartiant='h4'>
                         ADD NEW PARKING
                     </Typography>
                     <TextField
@@ -174,12 +189,19 @@ class AddParking extends React.Component
                             className={field}
                             fullWidth
                             variant={'outlined'}
+                            onClick={e=>this.setState({addressModal:true})}
                             InputProps={{
-                                endAdornment: <InputAdornment position='end'>
+                                endAdornment: 
+                                <InputAdornment 
+                                    position='end'
+                                    className={specialCursor}>
                                     <AddIcon
                                         onClick={e=>this.setState({addressModal:true})}/>
-                                    </InputAdornment>,                                    
+                                </InputAdornment>,                                    
                                     readOnly: true,
+                                    classes: {
+                                        input:specialCursor
+                                    }
                                 }}
                         />
                     <TextField
@@ -219,6 +241,7 @@ class AddParking extends React.Component
                                 value={opens}
                                 onChange={date => this.setState({opens:date})}
                                 className={timer}
+                                minutesStep={60}
                                 />
                             
                             <TimePicker
@@ -227,6 +250,7 @@ class AddParking extends React.Component
                                 value={closes}
                                 onChange={date=>this.setState({closes:date})}
                                 className={timer}
+                                minutesStep={60}
                                 />
                                 
                         </Grid>

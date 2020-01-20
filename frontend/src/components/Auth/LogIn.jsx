@@ -13,7 +13,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { userLogIn, fetchParkings } from '../../redux/actions'
+import { userLogIn, fetchParkings,fetchReservations } from '../../redux/actions'
 
 const styles = {
     
@@ -90,8 +90,12 @@ class LogIn extends React.Component{
 
             this.props.userLogIn(user);
             this.props.fetchParkings()
-            this.props.history.push("/");
          })
+         .then(e=>{
+            this.props.fetchReservations();
+            this.props.history.push("/parkings");
+         })
+
         
     }
 
@@ -132,7 +136,6 @@ class LogIn extends React.Component{
                             error={emailError.length>0}
                             helperText={emailError}
                             className={field}
-                            fullWidth
                             variant={'outlined'}
                         />
                     <TextField
@@ -141,7 +144,6 @@ class LogIn extends React.Component{
                         onChange={e => this.setState({password:e.target.value})}
                         value={password}
                         className={field}
-                        fullWidth
                         variant={'outlined'}
                     />
                     <Button
@@ -162,7 +164,8 @@ class LogIn extends React.Component{
 
 const mapDispatchToProps = (dispatch) => ({
     userLogIn: user => dispatch(userLogIn(user)),
-    fetchParkings: ()=>dispatch(fetchParkings())
+    fetchParkings: ()=>dispatch(fetchParkings()),
+    fetchReservations: ()=>dispatch(fetchReservations())
 })
 
 export default withRouter(connect(

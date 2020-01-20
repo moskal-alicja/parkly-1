@@ -44,7 +44,7 @@ const styles = {
         backgroundColor:'#ffffff',
         color:'#888888',
         height: '50px',
-        width:'60%',
+        width:'30%',
         margin:'40px'
     },
     
@@ -131,16 +131,29 @@ class AddressModal extends React.Component{
                         variant={'outlined'}
                         InputProps={{inputProps: { min: 1}}}
                         />
-                    
-                    <Button
-                        onClick={this.clickConfirm}
-                        className={button}
-                        variant={'contained'}
-                        color={'primary'}
-                        disabled={!city || !street || !number}
-                        >
-                        confirm
-                    </Button>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="space-around"
+                        alignItems="center">
+                        <Button
+                            onClick={this.props.clickCancel}
+                            className={button}
+                            variant={'contained'}
+                            color={'primary'}
+                            >
+                            cancel
+                        </Button>
+                        <Button
+                                onClick={this.clickConfirm}
+                                className={button}
+                                variant={'contained'}
+                                color={'primary'}
+                                disabled={!city || !street || !number}
+                                >
+                                confirm
+                            </Button>
+                    </Grid>
                 </Grid>
             </Card>
             </>)

@@ -1,12 +1,18 @@
-import {USER_LOG_IN,
-        PARKING_ADDED,
-        PARKING_DELETED,
-        FETCH_PARKINGS_ERROR,
-        FETCH_PARKINGS_PROPERLY,
-        FETCH_PARKINGS_LAUNCH } from "./constants";
+import { 
+      USER_LOG_IN,
+      PARKING_ADDED,
+      PARKING_DELETED,
+      PARKING_EDITED,
+      FETCH_PARKINGS_ERROR,
+      FETCH_PARKINGS_PROPERLY,
+      FETCH_PARKINGS_LAUNCH,
+      FETCH_RESERVATIONS_LAUNCH,
+      FETCH_RESERVATIONS_PROPERLY,
+      FETCH_RESERVATIONS_ERROR } from "./constants";
 
 export const initialState = {
   parkings:[],
+  reservations:[],
   user: undefined,
 };
 
@@ -31,6 +37,20 @@ const appReducer = (state = initialState, action) => {
       return {...state, parkings:updatedParkings}
     }
 
+    case PARKING_EDITED:{
+
+      const parking =action.payload
+      
+      const updatedParkings=state.parkings.map(p =>{
+        if(p.id!==parking.id)
+          return p
+        else
+          return parking;
+      } );
+
+      return {...state, parkings:updatedParkings}
+    }
+
     case FETCH_PARKINGS_LAUNCH: {
       return { ...state, loaded: false };
     }
@@ -41,6 +61,20 @@ const appReducer = (state = initialState, action) => {
     }
 
     case FETCH_PARKINGS_ERROR: {
+      const error = action.payload;
+      return { ...state, error, loaded: true };
+    }
+
+    case FETCH_RESERVATIONS_LAUNCH: {
+      return { ...state, loaded: false };
+    }
+
+    case FETCH_RESERVATIONS_PROPERLY: {
+      const reservations = action.payload;
+      return { ...state, reservations, loaded: true };
+    }
+
+    case FETCH_RESERVATIONS_ERROR: {
       const error = action.payload;
       return { ...state, error, loaded: true };
     }

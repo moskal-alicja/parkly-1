@@ -2,6 +2,7 @@ import React from 'react'
 
 import Header from '../Header'
 import ParkingModal from './ParkingModal'
+import FilterModal from './FilterModal'
 
 import Button from '@material-ui/core/Button'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
@@ -14,6 +15,8 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDropDownSharp'
 import ArrowUpwardIcon from '@material-ui/icons/ArrowDropUpSharp'
 import IconButton from '@material-ui/core/IconButton'
+import CircularProgress from '@material-ui/core/CircularProgress'
+
 
 
 import { withStyles } from '@material-ui/core/styles'
@@ -49,17 +52,55 @@ const styles={
         cursor:'pointer'
     },
 
+    circule:{
+        position: 'fixed',
+        top: '50%',
+        left: '48%',
+        color:'#A40E4C',
+    }
+
 }
+
+
+
+  
 class Parkings extends React.Component{
     constructor(props){
         super(props);
         this.state={
             page:1,
-            pageSize:13,
+            pageSize:8,
             sortBy:'',
-            sortDirection:'N'
+            sortDirection:'N',
+            filterModal:false,
+            cityFilter:'',
+            streetFilter:'',
+            hoursFilter:'',
+            loading:false
         }
 
+    }
+
+    setFilters=(city,street,hours)=>{
+        this.setState({
+            cityFilter:city,
+            streetFilter:street,
+            hoursFilter:hours,
+            loading:true,
+            filterModal:false
+        })
+
+        //pobranie odfiltrowanych parkingow z bazy(redux)
+        setTimeout(()=> this.setState({loading:false}), 3000);
+        
+    }
+
+    cancelFilters=()=>{
+        this.setState({filterModal:false})
+    }
+
+    clickFilter=()=>{
+        this.setState({filterModal:true})
     }
     clickAdd=()=>{
         this.props.history.push('/addParking')
@@ -125,17 +166,22 @@ class Parkings extends React.Component{
             grid,
             gridTitles,
             title1,
-            title
+            title,
+            circule
         }=this.props.classes
 
         const{
             page,
             pageSize,
             sortBy,
-            sortDirection
+            sortDirection,
+            filterModal,
+            loading
         }=this.state
         return(
             <>
+            {loading ? <CircularProgress className={circule}/>:''}
+            {filterModal ? <FilterModal filterClick={this.setFilters} cancelClick={this.cancelFilters}/>:''}
             <Header/>
             <Container>
                     <Card
@@ -164,8 +210,8 @@ class Parkings extends React.Component{
                                             height: '35px'}}
                                         size='small'>
                                 <Button
-                                    onClick={this.clickFiltr}>
-                                    filtr
+                                    onClick={this.clickFilter}>
+                                    filter
                                 </Button>
                                 <Button
                                     onClick={this.clickAdd}>
@@ -209,9 +255,11 @@ class Parkings extends React.Component{
                                         address
                                     </Typography>
                                         {sortDirection==='A' && sortBy==='address'?
-                                        <ArrowUpwardIcon/>
+                                        <ArrowUpwardIcon
+                                            style={{color:'#fff'}}/>
                                         :sortDirection==='D' && sortBy==='address'?
-                                        <ArrowDownwardIcon/>:''}
+                                        <ArrowDownwardIcon
+                                            style={{color:'#fff'}}/>:''}
                                 </Grid>
 
                                 <Grid
@@ -241,9 +289,11 @@ class Parkings extends React.Component{
                                         number of spots
                                     </Typography>
                                         {sortDirection==='A' && sortBy==='spotsNumber'?
-                                        <ArrowUpwardIcon/>
+                                        <ArrowUpwardIcon
+                                        style={{color:'#fff'}}/>
                                         :sortDirection==='D' && sortBy==='spotsNumber'?
-                                        <ArrowDownwardIcon/>:''}
+                                        <ArrowDownwardIcon
+                                        style={{color:'#fff'}}/>:''}
                                 </Grid>
 
                                 <Grid
@@ -274,9 +324,11 @@ class Parkings extends React.Component{
                                         price per hour
                                     </Typography>
                                             {sortDirection==='A' && sortBy==='price'?
-                                            <ArrowUpwardIcon/>
+                                            <ArrowUpwardIcon
+                                            style={{color:'#fff'}}/>
                                             :sortDirection==='D' && sortBy==='price'?
-                                            <ArrowDownwardIcon/>:''}
+                                            <ArrowDownwardIcon
+                                            style={{color:'#fff'}}/>:''}
                                 </Grid>
 
                                 <Grid
@@ -307,18 +359,20 @@ class Parkings extends React.Component{
                                         working hours
                                     </Typography>
                                         {sortDirection==='A' && sortBy==='workingHours'?
-                                            <ArrowUpwardIcon/>
+                                            <ArrowUpwardIcon
+                                            style={{color:'#fff'}}/>
                                             :sortDirection==='D' && sortBy==='workingHours'?
-                                            <ArrowDownwardIcon/>:''}
+                                            <ArrowDownwardIcon
+                                            style={{color:'#fff'}}/>:''}
                                 </Grid>
                         </Grid>
                     <div>
                         {!this.props.parkings ? '':this.props.parkings.sort(this.comperator).map((p,i) =>{ 
                                 if(i>=(page-1)*pageSize && i<page*pageSize)
-                                    return <ParkingModal key={i} parking={p}/>
+                                    return <ParkingModal key={p.id} parking={p}/>
                                 })}
                     </div>
-                {this.props.parkings ?
+                {this.props.parkings.length>0 ?
                     <div
                         style={{ 
                             width:'100%',

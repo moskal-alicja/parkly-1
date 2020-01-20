@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import ProtectedRoute from './ProtectedRoute'
 
 import { createStore,applyMiddleware,compose} from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
@@ -12,6 +13,7 @@ import CreateAccount from './Auth/CreateAccount'
 import LogIn from './Auth/LogIn'
 import AddParking from './Add Parking/AddParking'
 import Parkings from './Parking List/Parkings'
+import Reservations from './Reservation List/Reservations'
 
 const store = createStore(appReducer,initialState,compose(applyMiddleware(thunk),composeWithDevTools()))
 
@@ -23,8 +25,9 @@ const App = () => {
           <Route path={'/'} exact component={Home}/>
           <Route path={'/createAccount'} component={CreateAccount}/>
           <Route path={'/logIn'} component={LogIn}/>
-          <Route path={'/addParking'} component={AddParking}/>
-          <Route path={'/parkings'} component={Parkings}/>
+          <ProtectedRoute path={'/addParking'} component={AddParking}/>
+          <ProtectedRoute path={'/parkings'} component={Parkings}/>
+          <ProtectedRoute path={'/reservations'} component={Reservations}/>
         </Switch>
       </Router>
     </Provider>

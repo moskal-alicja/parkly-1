@@ -30,6 +30,10 @@ class Header extends React.Component{
         this.props.history.push('/parkings')
     }
 
+    reservations=()=>{
+        this.props.history.push('/reservations')
+    }
+
     logOut=()=>{
         this.props.userLogIn(undefined);
         this.props.history.push("/");
@@ -57,6 +61,10 @@ class Header extends React.Component{
                         </Button>
                     </ButtonGroup>:
                     <ButtonGroup variant="text" style={{ backgroundColor: '#ffffff',color:'#565656',width:'50%',justifyContent:'flex-end'}}>
+                        <Button
+                            onClick={this.reservations}>
+                            reservations
+                        </Button>
                         <Button
                             onClick={this.parkings}>
                             parkings
