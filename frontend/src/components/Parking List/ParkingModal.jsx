@@ -70,6 +70,7 @@ const styles={
     },
 }
 
+const numberRegEx = new RegExp('^[0-9]+$')
 class ParkingModal extends React.Component{
     constructor(props){
         super(props);
@@ -96,15 +97,20 @@ class ParkingModal extends React.Component{
 
         let isOK=true
 
-        if(isNaN(parseInt(this.state.iPrice)))
+        console.log(this.state.iPrice)
+
+        if(!this.state.iPrice.toString().match(numberRegEx))
         {
             this.setState({priceError:'Wrong format'})
             isOK=false;
         }
         else
+        {
             this.setState({priceError:''})
 
-        if(isNaN(parseInt(this.state.iSpotsNumber)))
+        }
+
+        if(!this.state.iSpotsNumber.toString().match(numberRegEx))
         {
             this.setState({spotsNumberError:'Wrong format'})
             isOK=false
@@ -119,15 +125,18 @@ class ParkingModal extends React.Component{
                 city: this.props.parking.city,
                 street: this.props.parking.street,
                 number: this.props.parking.number,
-                spotsNumber: this.state.iSpotsNumber,
-                price: this.state.iPrice,
+                spotsNumber:parseInt(this.state.iSpotsNumber),
+                price: parseInt(this.state.iPrice),
                 opens: this.state.iOpens.toString(),
                 closes: this.state.iCloses.toString()
             }
 
             this.props.parkingEdited(parking)
             //tu do bazy
-            this.setState({editMode:false})
+            this.setState({
+                editMode:false,
+                iSpotsNumber:parseInt(this.state.iSpotsNumber),
+                iPrice:parseInt(this.state.iPrice)})
         }
 
         
