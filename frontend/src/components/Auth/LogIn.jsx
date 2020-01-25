@@ -100,7 +100,37 @@ class LogIn extends React.Component{
             this.props.history.push("/parkings");
          })
 
-        
+         fetch('http://localhost:8080/parking-owner/login', {
+            method: 'GET', // or 'PUT'
+            headers: {
+              'Content-Type': 'application/json',
+              'user_name':'parkly',
+              'email':this.state.email,
+              'password':passwordHash.generate(this.state.password)
+            },
+          })
+          .then((response) => {
+              if(response.status===200)
+              {
+                console.log(respose.json());
+                this.props.userLogIn(response.json());
+                this.props.fetchParkings();//z user id
+                this.props.fetchReservations();//z user id
+                this.props.history.push("/parkings");
+
+              }
+
+              else if(respone.status===401)
+              {
+
+              }
+            })
+          .then((data) => {
+            console.log('Success:', data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
     }
 
     render(){
