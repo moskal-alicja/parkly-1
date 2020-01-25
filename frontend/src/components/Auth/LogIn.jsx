@@ -15,6 +15,9 @@ import { connect } from 'react-redux'
 
 import { userLogIn, fetchParkings,fetchReservations } from '../../redux/actions'
 
+
+var passwordHash = require('password-hash');
+
 const styles = {
     
     card:{
@@ -88,6 +91,7 @@ class LogIn extends React.Component{
                 return;
             }
 
+            console.log(passwordHash.generate('password123'))
             this.props.userLogIn(user);
             this.props.fetchParkings()
          })
