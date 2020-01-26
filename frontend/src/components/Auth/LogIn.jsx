@@ -73,64 +73,35 @@ class LogIn extends React.Component{
     }
 
     clickLogIn=()=>{
-        //znajdz email,jezeli nie ma to blad, jezeli istniej sprawdz haslo, jezeli haslo sie zgadza ->home
-        //redux
-        fetch('http://localhost:3004/users')
-        .then(res => res.json())
-        .then(data => data.find(user => user.email===this.state.email))
-        .then(user=>{
-            if(user===undefined)
-            {
-                this.setState({emailError: 'niepoprawny email'})
-                return;
-            }
-            
-            if(user.password!=this.state.password)
-            {
-                this.setState({emailError:'niepoprawne haslo dla danego emaila'})
-                return;
-            }
 
-            console.log(passwordHash.generate('password123'))
-            this.props.userLogIn(user);
-            this.props.fetchParkings()
-         })
-         .then(e=>{
-            this.props.fetchReservations();
-            this.props.history.push("/parkings");
-         })
 
          fetch('http://localhost:8080/parking-owner/login', {
-            method: 'GET', // or 'PUT'
+            method: 'GET',
             headers: {
               'Content-Type': 'application/json',
               'user_name':'parkly',
               'email':this.state.email,
-              'password':passwordHash.generate(this.state.password)
+              'password':this.state.password
             },
           })
           .then((response) => {
-              if(response.status===200)
+              if(response.status===401)
               {
-                console.log(respose.json());
-                this.props.userLogIn(response.json());
-                this.props.fetchParkings();//z user id
-                this.props.fetchReservations();//z user id
-                this.props.history.push("/parkings");
-
+                this.setState({emailError:'niepoprawne haslo dla danego emaila'})
+                return;
               }
-
-              else if(respone.status===401)
-              {
-
+              else{
+                  return response.json();
               }
             })
-          .then((data) => {
-            console.log('Success:', data);
-          })
-          .catch((error) => {
+            .then((result) => {
+                this.props.userLogIn(result);
+                this.props.fetchParkings(result.id,result.userToken);
+                this.props.history.push("/parkings");
+            })
+            .catch((error) => {
             console.error('Error:', error);
-          });
+});
     }
 
     render(){
@@ -198,7 +169,7 @@ class LogIn extends React.Component{
 
 const mapDispatchToProps = (dispatch) => ({
     userLogIn: user => dispatch(userLogIn(user)),
-    fetchParkings: ()=>dispatch(fetchParkings()),
+    fetchParkings: (id,token)=>dispatch(fetchParkings(id,token)),
     fetchReservations: ()=>dispatch(fetchReservations())
 })
 

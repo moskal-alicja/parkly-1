@@ -87,8 +87,8 @@ class AddParking extends React.Component
             number:'',
             spotsNumber:0,
             price:0,
-            opens:new Date('2004-02-12T00:00:00+00:00'),
-            closes:new Date('2004-02-12T00:00:00+00:00'),
+            opens:new Date('2000-01-01T00:00:00+00:00'),
+            closes:new Date('2000-01-01T00:00:00+00:00'),
             addressModal:false
         }
     }
@@ -116,24 +116,28 @@ class AddParking extends React.Component
         } = this.state
 
         const parking={
-            id: Date.now(),
             city,
             street,
             number,
             spotsNumber,
             price,
-            opens,
-            closes
+            opens:opens.getHours(),
+            closes:closes.getHours(),
+            ownerId:this.props.user.id
         }
-        fetch('http://localhost:3004/parkings', {
+        fetch('http://localhost:8080/parkings', {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'user_name':'parkly',
+                'user_token':this.props.user.userToken
+
             },
             body: JSON.stringify(parking)
         })
-        .then(e=>this.props.parkingAdded(parking))
+        .then(res=>res.json())
+        .then(p=>this.props.parkingAdded(p))
         .then(e=>this.props.history.push("/parkings"))
     }
     render(){
@@ -275,7 +279,13 @@ class AddParking extends React.Component
 const mapDispatchToProps = (dispatch) => ({
     parkingAdded: parking => dispatch(parkingAdded(parking))
 })
+
+const mapStateToProps = (state /*, ownProps*/) => {
+    return {
+      user:state.user,
+    }
+}
 export default withRouter(connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(withStyles(styles)(AddParking)))

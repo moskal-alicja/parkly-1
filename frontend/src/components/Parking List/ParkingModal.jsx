@@ -22,7 +22,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { parkingDeleted,parkingEdited } from '../../redux/actions'
+import { parkingDeleted,parkingEdited,fetchReservations } from '../../redux/actions'
 
 const styles={
     grid1:{
@@ -79,8 +79,8 @@ class ParkingModal extends React.Component{
             editMode:false,
             iSpotsNumber:props.parking.spotsNumber,
             iPrice:this.props.parking.price,
-            iOpens:new Date(props.parking.opens),
-            iCloses:new Date(props.parking.closes),
+            iOpens: new Date(2000,1,1,props.parking.opens,0,0),
+            iCloses:new Date(2000,1,1,props.parking.closes,0,0),
             priceError:'',
             spotsNumberError:'',
             snackBar:false
@@ -88,18 +88,28 @@ class ParkingModal extends React.Component{
     }
 
     deleteParking=()=>{
-        fetch('http://localhost:3004/parkings/'+this.props.parking.id, {
+        fetch('http://localhost:8080/parkings/'+this.props.parking.id, {
             method: 'DELETE',
-            headers: {'content-type': 'application/json'},
-            body: JSON.stringify({id: this.props.parking.id})})
+            headers: {
+                'user_name':'parkly',
+                'user_token':this.props.user.userToken
+                },
+            })
             .then(e=>this.props.parkingDeleted(this.props.parking))
+            .catch((error) => {
+                console.error('Error:', error)
+            })
+
+    }
+    showReservations=()=>{
+        this.props.fetchReservations(this.props.parking.id,this.props.user.userToken,'parking')
+        this.props.history.push('/reservations')
     }
 
     checkClick=()=>{
 
         let isOK=true
 
-        this.setState({snackBar:true});
 
         if(!this.state.iPrice.toString().match(numberRegEx))
         {
@@ -129,16 +139,45 @@ class ParkingModal extends React.Component{
                 number: this.props.parking.number,
                 spotsNumber:parseInt(this.state.iSpotsNumber),
                 price: parseInt(this.state.iPrice),
-                opens: this.state.iOpens.toString(),
-                closes: this.state.iCloses.toString()
+                opens: new Date(this.state.iOpens).getHours(),
+                closes: new Date(this.state.iCloses).getHours(),
+                ownerId:this.props.user.id
             }
 
-            this.props.parkingEdited(parking)
+            fetch('http://localhost:8080/parkings/'+parking.id, {
+                method: 'PUT', // or 'PUT'
+                headers: {
+                  'Content-Type': 'application/json',
+                  'user_name':'parkly',
+                  'user_token':this.props.user.userToken
+                },
+                body: JSON.stringify(parking)
+              })
+              .then((response) => {
+                  if(response.status===403)
+                  {
+                    this.setState({snackBar:true})
+                    return;
+                  }
+                  else{
+                      return response.json();
+                  }
+                })
+                .then((result) => {
+                    this.props.parkingEdited(result)
+                    this.setState({
+                        editMode:false,
+                        iSpotsNumber:parseInt(this.state.iSpotsNumber),
+                        iPrice:parseInt(this.state.iPrice)})
+                })
+                .catch((error) => {
+                console.error('Error:', error);
+                })
+
+           
+            
             //tu do bazy
-            this.setState({
-                editMode:false,
-                iSpotsNumber:parseInt(this.state.iSpotsNumber),
-                iPrice:parseInt(this.state.iPrice)})
+           
         }
 
         
@@ -289,13 +328,15 @@ class ParkingModal extends React.Component{
                                     />
                             </Grid>
                         :<Typography variant='overline'>
-                            {new Date(opens).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})+' - '+
-                            new Date(closes).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})}
+                            {new Date(2000,1,1,opens,0,0).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})+' - '+
+                            new Date(2000,1,1,closes,0,0).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})}
                         </Typography>}
                     </Grid>
                 </MuiPickersUtilsProvider>
-                <div style={{flexBasis: '8%'}}/>
-                {editMode?<div style={{flexBasis: '12%'}}>
+
+                <div style={{flexBasis: '5%'}}/>
+                {editMode?<div style={{flexBasis: '15%'}}>
+
                     <Tooltip title="Save">
                         <IconButton
                             onClick={this.checkClick}>
@@ -308,9 +349,10 @@ class ParkingModal extends React.Component{
                             <CloseIcon/>
                         </IconButton>
                     </Tooltip>
-                </div>:<div style={{flexBasis: '12%'}}>
+                </div>:<div style={{flexBasis: '15%'}}>
                     <Tooltip title="Reservations">
-                        <IconButton>
+                        <IconButton
+                             onClick={this.showReservations}>
                             <DehazeIcon/>
                         </IconButton>
                     </Tooltip>
@@ -330,24 +372,33 @@ class ParkingModal extends React.Component{
                 }
             </Grid>
         </Card>
-         <Snackbar open={snackBar}>
-         <SnackbarContent
-            style={{backgroundColor: '#494949'}}
-             action={(
-                 <IconButton onClick={e=>this.setState({snackBar: false})}>
-                     <CloseIcon/>
-                 </IconButton>
-             )}
-             message='Parking cannot be edited.
-             It is reserved'
-         />
-     </Snackbar></>)
+        <Snackbar open={snackBar}>
+        <SnackbarContent
+           style={{backgroundColor: '#494949'}}
+            action={(
+                <IconButton onClick={e=>this.setState({snackBar: false})}>
+                    <CloseIcon/>
+                </IconButton>
+            )}
+            message='Parking cannot be edited.
+            It is reserved'
+        />
+    </Snackbar></>)
+
     }
 }
 const mapDispatchToProps = (dispatch) => ({
     parkingDeleted: parking => dispatch(parkingDeleted(parking)),
-    parkingEdited: parking => dispatch(parkingEdited(parking))
+    parkingEdited: parking => dispatch(parkingEdited(parking)),
+    fetchReservations:(id,token,flag)=>dispatch(fetchReservations(id,token,flag))
 })
+
+const mapStateToProps = (state /*, ownProps*/) => {
+    return {
+      user:state.user,
+    }
+}
+
 export default withRouter(connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps)(withStyles(styles)(ParkingModal)))

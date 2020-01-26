@@ -139,8 +139,6 @@ class FilterModal extends React.Component{
                         value={totalCost}
                         className={slider}
                         onChange={ (e,newValue) => this.setState({totalCost: newValue})}
-                        // valueLabelDisplay="auto"
-                        // valueLabelFormat={(value,index)=>{return `${value}PLN`}}
                         ValueLabelComponent={ValueLabelComponent}
                         step={10}
                         min={0}

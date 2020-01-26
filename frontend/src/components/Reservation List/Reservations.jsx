@@ -22,6 +22,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { withStyles } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { fetchReservations,reservationsModified } from '../../redux/actions'
 
 const styles={
   card:{
@@ -77,7 +78,7 @@ class Reservations extends React.Component{
     }
   }
 
-  setFilters=(city,street,profit)=>{
+setFilters=(city,street,profit)=>{
      
     
     this.setState({
@@ -88,24 +89,60 @@ class Reservations extends React.Component{
         filterModal:false
     })
 
-    //pobranie odfiltrowanych parkingow z bazy(redux)
+    const user=this.props.user;
+    let url='http://localhost:8080/reservations/filter/'+user.id+'?'
 
-    setTimeout(()=> this.setState({loading:false}), 3000);
+    if(city!='')
+    {
+        url=url+'&city='+city
+    }
+    
+    if(street!='')
+    {
+        url=url+'&street='+street
+    }
+
+    url=url+'&totalCostFrom='+profit[0]
+    url=url+'&totalCostTo='+profit[1]
+
+    fetch(url,{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'user_name':'parkly',
+          'user_token':user.userToken
+        },
+      })
+        .then(res => res.json())
+        .then(reservations => {
+          this.props.reservationsModified(reservations)
+        })
+        .catch(error => {
+          console.log('error: ',error);
+        });
+
+    this.setState({loading:false});
 }
 
 cancelFilters=()=>{
     this.setState({filterModal:false})
 }
   
-  onNext=()=>{
-    if(Math.ceil(this.props.reservations.length/this.state.pageSize)>=this.state.page+1)
-        this.setState({page:this.state.page+1})
-  }
+onNext=()=>{
+if(Math.ceil(this.props.reservations.length/this.state.pageSize)>=this.state.page+1)
+    this.setState({page:this.state.page+1})
+}
 
-  onPrevious=()=>{
-    if((this.state.page-1)>0)
-    this.setState({page:this.state.page-1})
-  }
+onPrevious=()=>{
+if((this.state.page-1)>0)
+this.setState({page:this.state.page-1})
+}
+
+clickAll=()=>{
+    this.setState({loading:true})
+    this.props.fetchReservations(this.props.user.id,this.props.user.userToken,'owner')
+    this.setState({loading:false})
+}
 
 comperator=(p1,p2)=>{
 
@@ -354,7 +391,7 @@ comperator=(p1,p2)=>{
                       return <ReservationModal key={i} reservation={r}/>
                   })}
       </div>
-      {this.props.reservations.length>0 ?
+      {this.props.reservations.length>0 && !this.state.filterModal ?
           <div
               style={{ 
                   width:'100%',
@@ -381,10 +418,16 @@ comperator=(p1,p2)=>{
 const mapStateToProps = (state /*, ownProps*/) => {
     return {
       reservations:state.reservations,
+      user:state.user
     }
 }
 
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchReservations:(id,token,flag)=>dispatch(fetchReservations(id,token,flag)),
+    reservationsModified: reservations => dispatch(reservationsModified(reservations)),
+})
 export default withRouter(connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(withStyles(styles)(Reservations)))

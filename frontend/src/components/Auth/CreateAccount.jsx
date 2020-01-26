@@ -95,21 +95,21 @@ class CreateAccount extends React.Component{
         }=this.state
 
         const user = { 
-            id: Date.now(),
-            email, 
-            password,
-            phoneNumber,
             name,
-            surname
+            surname,
+            email, 
+            phoneNumber,
+            password,
         };
+
         //zapisz do bazy(do zmiany)
         //haslo musi byc hashowane(do zmiany)
 
-        fetch('http://localhost:3004/users', {
+        fetch('http://localhost:8080/parking-owner', {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'user_name': 'parkly'
             },
             body: JSON.stringify(user)
         })
@@ -118,12 +118,9 @@ class CreateAccount extends React.Component{
     
     clickNext=()=>{
     
-        //sprawdzenie czy user o takim mailu jest juz w bazie(do zminay)
-        fetch("http://localhost:3004/users")
-        .then(res => res.json())
-        .then(data => data.find(user => user.email===this.state.email))
+        fetch('http://localhost:8080/parking-owner/email?emailAddress='+this.state.email)
         .then(result=>{
-            if(result===undefined)
+            if(result.status===200)
                 this.setState({firstPage:false})
 
             else
