@@ -411,13 +411,15 @@ class Parkings extends React.Component{
                             justifyContent:'center',
                             display:'flex'}}
                         >
-                        <IconButton onClick={this.onPrevious} color={'inherit'}>
+                        <IconButton onClick={this.onPrevious}
+                            style={{color: '#fff'}}>
                             <KeyboardArrowLeft/>
                         </IconButton>
-                        <Typography variant={'button'} style={{ margin: '12px 20px',  color:'#ffffff'}}>
+                        <Typography variant={'button'} style={{ margin: '12px 20px',  color:'#fff'}}>
                             {`${page} / ${Math.ceil(this.props.parkings.length/pageSize)}`}
                         </Typography>
-                        <IconButton onClick={this.onNext} color={'inherit'}>
+                        <IconButton onClick={this.onNext}
+                            style={{color: '#fff'}}>
                             <KeyboardArrowRight/>
                         </IconButton>
                     </div>:<div/>}

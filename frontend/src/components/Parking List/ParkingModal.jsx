@@ -110,6 +110,7 @@ class ParkingModal extends React.Component{
 
         let isOK=true
 
+
         if(!this.state.iPrice.toString().match(numberRegEx))
         {
             this.setState({priceError:'Wrong format'})
@@ -332,8 +333,10 @@ class ParkingModal extends React.Component{
                         </Typography>}
                     </Grid>
                 </MuiPickersUtilsProvider>
+
                 <div style={{flexBasis: '5%'}}/>
                 {editMode?<div style={{flexBasis: '15%'}}>
+
                     <Tooltip title="Save">
                         <IconButton
                             onClick={this.checkClick}>
@@ -381,6 +384,7 @@ class ParkingModal extends React.Component{
             It is reserved'
         />
     </Snackbar></>)
+
     }
 }
 const mapDispatchToProps = (dispatch) => ({
