@@ -5,11 +5,12 @@ import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import  Card  from '@material-ui/core/Card'
 import IconButton from '@material-ui/core/IconButton'
+import Snackbar from '@material-ui/core/Snackbar'
+import SnackbarContent from '@material-ui/core/SnackbarContent'
 
 import Tooltip from '@material-ui/core/Tooltip'
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import EditIcon from '@material-ui/icons/Edit'
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import DehazeIcon from '@material-ui/icons/Dehaze'
 import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
@@ -81,7 +82,8 @@ class ParkingModal extends React.Component{
             iOpens:new Date(props.parking.opens),
             iCloses:new Date(props.parking.closes),
             priceError:'',
-            spotsNumberError:''
+            spotsNumberError:'',
+            snackBar:false
         }
     }
 
@@ -97,7 +99,7 @@ class ParkingModal extends React.Component{
 
         let isOK=true
 
-        console.log(this.state.iPrice)
+        this.setState({snackBar:true});
 
         if(!this.state.iPrice.toString().match(numberRegEx))
         {
@@ -171,9 +173,11 @@ class ParkingModal extends React.Component{
             iOpens,
             iCloses,
             priceError,
-            spotsNumberError
+            spotsNumberError,
+            snackBar
         }=this.state
         return(
+        <>
         <Card
             className={card}>
             <Grid  
@@ -291,47 +295,53 @@ class ParkingModal extends React.Component{
                     </Grid>
                 </MuiPickersUtilsProvider>
                 <div style={{flexBasis: '8%'}}/>
-                {editMode?<>
+                {editMode?<div style={{flexBasis: '12%'}}>
                     <Tooltip title="Save">
                         <IconButton
-                            style={{flexBasis: '6%'}}
-                            onClick={this.checkClick}
-                            >
+                            onClick={this.checkClick}>
                             <CheckIcon/>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Reject">
                         <IconButton
-                            style={{flexBasis: '6%'}}
                             onClick={e=>this.setState({editMode: false})}>
                             <CloseIcon/>
                         </IconButton>
                     </Tooltip>
-                </>:<>
+                </div>:<div style={{flexBasis: '12%'}}>
                     <Tooltip title="Reservations">
-                        <IconButton
-                            style={{flexBasis: '4%'}}>
+                        <IconButton>
                             <DehazeIcon/>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Edit">
                         <IconButton
-                            style={{flexBasis: '4%'}}
                             onClick={e=>this.setState({editMode: true})}>
                             <EditIcon/>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete">
                         <IconButton
-                            style={{flexBasis: '4%'}}
                             onClick={this.deleteParking}>
                             <DeleteOutlineOutlinedIcon/>
                         </IconButton>
                     </Tooltip>
-                </>
+                </div>
                 }
             </Grid>
-        </Card>)
+        </Card>
+         <Snackbar open={snackBar}>
+         <SnackbarContent
+            style={{backgroundColor: '#494949'}}
+             action={(
+                 <IconButton onClick={e=>this.setState({snackBar: false})}>
+                     <CloseIcon/>
+                 </IconButton>
+             )}
+             message='Parking cannot be edited.
+             It is reserved'
+         />
+     </Snackbar></>)
     }
 }
 const mapDispatchToProps = (dispatch) => ({

@@ -51,6 +51,7 @@ export const fetchParkingsProperly = parkings => {
 };
 
 export const fetchParkingsError = error => {
+  
   return {
     type: FETCH_PARKINGS_ERROR,
     payload: error
