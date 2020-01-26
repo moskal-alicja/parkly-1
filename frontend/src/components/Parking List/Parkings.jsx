@@ -23,6 +23,8 @@ import { withStyles } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import { parkingsModified } from '../../redux/actions'
+
 
 const styles={
     card:{
@@ -89,9 +91,39 @@ class Parkings extends React.Component{
             loading:true,
             filterModal:false
         })
+        const user=this.props.user;
+        let url='http://localhost:8080/parkings/filter?ownerId='+user.id
 
-        //pobranie odfiltrowanych parkingow z bazy(redux)
-        setTimeout(()=> this.setState({loading:false}), 3000);
+        if(city!='')
+        {
+            url=url+'&city='+city
+        }
+        
+        if(street!='')
+        {
+            url=url+'&street='+street
+        }
+
+        url=url+'&workingHoursFrom='+hours[0]
+        url=url+'&workingHoursTo='+hours[1]
+
+        fetch(url,{
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'user_name':'parkly',
+              'user_token':user.userToken
+            },
+          })
+            .then(res => res.json())
+            .then(parkings => {
+              this.props.parkingsModified(parkings)
+            })
+            .catch(error => {
+              console.log('error: ',error);
+            });
+
+        this.setState({loading:false});
         
     }
 
@@ -372,7 +404,7 @@ class Parkings extends React.Component{
                                     return <ParkingModal key={p.id} parking={p}/>
                                 })}
                     </div>
-                {this.props.parkings.length>0 ?
+                {this.props.parkings.length>0 && !this.state.filterModal ?
                     <div
                         style={{ 
                             width:'100%',
@@ -397,10 +429,14 @@ class Parkings extends React.Component{
 const mapStateToProps = (state /*, ownProps*/) => {
     return {
       parkings:state.parkings,
+      user:state.user
     }
 }
-
+const mapDispatchToProps = (dispatch) => ({
+    parkingsModified: parkings => dispatch(parkingsModified(parkings)),
+    
+})
 export default withRouter(connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(withStyles(styles)(Parkings)))

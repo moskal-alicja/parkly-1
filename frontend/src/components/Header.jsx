@@ -5,12 +5,11 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
-import Grid from '@material-ui/core/Grid'
 
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { userLogIn } from '../redux/actions'
+import { userLogIn,fetchParkings,fetchReservations } from '../redux/actions'
 
 class Header extends React.Component{
     constructor(props){
@@ -27,10 +26,15 @@ class Header extends React.Component{
     }
 
     parkings=()=>{
+
+        const user=this.props.user
+        this.props.fetchParkings(user.id,user.userToken)
         this.props.history.push('/parkings')
     }
 
     reservations=()=>{
+        const user=this.props.user
+        this.props.fetchReservations(user.id,user.userToken,'owner')
         this.props.history.push('/reservations')
     }
 
@@ -87,7 +91,9 @@ const mapStateToProps = (state /*, ownProps*/) => {
   }
   
 const mapDispatchToProps = (dispatch) => ({
-    userLogIn: user => dispatch(userLogIn(user))
+    userLogIn: user => dispatch(userLogIn(user)),
+    fetchParkings: (id,token)=>dispatch(fetchParkings(id,token)),
+    fetchReservations:(id,token,flag)=>dispatch(fetchReservations(id,token,flag))
 })
 export default withRouter(connect(
     mapStateToProps,

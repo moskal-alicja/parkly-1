@@ -1,14 +1,16 @@
 import { 
-      USER_LOG_IN,
-      PARKING_ADDED,
-      PARKING_DELETED,
-      PARKING_EDITED,
-      FETCH_PARKINGS_ERROR,
-      FETCH_PARKINGS_PROPERLY,
-      FETCH_PARKINGS_LAUNCH,
-      FETCH_RESERVATIONS_LAUNCH,
-      FETCH_RESERVATIONS_PROPERLY,
-      FETCH_RESERVATIONS_ERROR } from "./constants";
+    USER_LOG_IN,
+    PARKING_ADDED,
+    PARKING_DELETED,
+    PARKING_EDITED,
+    PARKINGS_MODIFIED,
+    FETCH_PARKINGS_ERROR,
+    FETCH_PARKINGS_PROPERLY,
+    FETCH_PARKINGS_LAUNCH,
+    FETCH_RESERVATIONS_LAUNCH,
+    FETCH_RESERVATIONS_PROPERLY,
+    FETCH_RESERVATIONS_ERROR,
+    RESERVATIONS_MODIFIED, } from "./constants";
 
 export const initialState = {
   parkings:[],
@@ -51,6 +53,11 @@ const appReducer = (state = initialState, action) => {
       return {...state, parkings:updatedParkings}
     }
 
+    case PARKINGS_MODIFIED: {
+      const newParkings=action.payload
+      return { ...state, parkings:newParkings  };
+    }
+
     case FETCH_PARKINGS_LAUNCH: {
       return { ...state, loaded: false };
     }
@@ -77,6 +84,11 @@ const appReducer = (state = initialState, action) => {
     case FETCH_RESERVATIONS_ERROR: {
       const error = action.payload;
       return { ...state, error, loaded: true };
+    }
+
+    case RESERVATIONS_MODIFIED: {
+      const newReservations=action.payload
+      return { ...state, reservations:newReservations  };
     }
     default:
       return state;

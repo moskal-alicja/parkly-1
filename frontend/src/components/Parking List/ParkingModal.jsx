@@ -5,6 +5,8 @@ import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import  Card  from '@material-ui/core/Card'
 import IconButton from '@material-ui/core/IconButton'
+import Snackbar from '@material-ui/core/Snackbar'
+import SnackbarContent from '@material-ui/core/SnackbarContent'
 
 import Tooltip from '@material-ui/core/Tooltip'
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
@@ -20,7 +22,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { parkingDeleted,parkingEdited } from '../../redux/actions'
+import { parkingDeleted,parkingEdited,fetchReservations } from '../../redux/actions'
 
 const styles={
     grid1:{
@@ -77,19 +79,31 @@ class ParkingModal extends React.Component{
             editMode:false,
             iSpotsNumber:props.parking.spotsNumber,
             iPrice:this.props.parking.price,
-            iOpens: new Date(1995,11,17,props.parking.opens,0,0),
-            iCloses:new Date(1995,11,17,props.parking.closes,0,0),
+            iOpens: new Date(2000,1,1,props.parking.opens,0,0),
+            iCloses:new Date(2000,1,1,props.parking.closes,0,0),
             priceError:'',
-            spotsNumberError:''
+            spotsNumberError:'',
+            snackBar:false
         }
     }
 
     deleteParking=()=>{
-        fetch('http://localhost:3004/parkings/'+this.props.parking.id, {
+        fetch('http://localhost:8080/parkings/'+this.props.parking.id, {
             method: 'DELETE',
-            headers: {'content-type': 'application/json'},
-            body: JSON.stringify({id: this.props.parking.id})})
+            headers: {
+                'user_name':'parkly',
+                'user_token':this.props.user.userToken
+                },
+            })
             .then(e=>this.props.parkingDeleted(this.props.parking))
+            .catch((error) => {
+                console.error('Error:', error)
+            })
+
+    }
+    showReservations=()=>{
+        this.props.fetchReservations(this.props.parking.id,this.props.user.userToken,'parking')
+        this.props.history.push('/reservations')
     }
 
     checkClick=()=>{
@@ -128,7 +142,7 @@ class ParkingModal extends React.Component{
                 closes: new Date(this.state.iCloses).getHours(),
                 ownerId:this.props.user.id
             }
-            console.log(parking)
+
             fetch('http://localhost:8080/parkings/'+parking.id, {
                 method: 'PUT', // or 'PUT'
                 headers: {
@@ -141,7 +155,7 @@ class ParkingModal extends React.Component{
               .then((response) => {
                   if(response.status===403)
                   {
-                    console.log('parking zajety')
+                    this.setState({snackBar:true})
                     return;
                   }
                   else{
@@ -197,9 +211,11 @@ class ParkingModal extends React.Component{
             iOpens,
             iCloses,
             priceError,
-            spotsNumberError
+            spotsNumberError,
+            snackBar
         }=this.state
         return(
+        <>
         <Card
             className={card}>
             <Grid  
@@ -311,58 +327,66 @@ class ParkingModal extends React.Component{
                                     />
                             </Grid>
                         :<Typography variant='overline'>
-                            {new Date(1995,11,17,opens,0,0).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})+' - '+
-                            new Date(1995,11,17,closes,0,0).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})}
+                            {new Date(2000,1,1,opens,0,0).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})+' - '+
+                            new Date(2000,1,1,closes,0,0).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})}
                         </Typography>}
                     </Grid>
                 </MuiPickersUtilsProvider>
-                <div style={{flexBasis: '8%'}}/>
-                {editMode?<>
+                <div style={{flexBasis: '5%'}}/>
+                {editMode?<div style={{flexBasis: '15%'}}>
                     <Tooltip title="Save">
                         <IconButton
-                            style={{flexBasis: '6%'}}
-                            onClick={this.checkClick}
-                            >
+                            onClick={this.checkClick}>
                             <CheckIcon/>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Reject">
                         <IconButton
-                            style={{flexBasis: '6%'}}
                             onClick={e=>this.setState({editMode: false})}>
                             <CloseIcon/>
                         </IconButton>
                     </Tooltip>
-                </>:<>
+                </div>:<div style={{flexBasis: '15%'}}>
                     <Tooltip title="Reservations">
                         <IconButton
-                            style={{flexBasis: '4%'}}>
+                             onClick={this.showReservations}>
                             <DehazeIcon/>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Edit">
                         <IconButton
-                            style={{flexBasis: '4%'}}
                             onClick={e=>this.setState({editMode: true})}>
                             <EditIcon/>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete">
                         <IconButton
-                            style={{flexBasis: '4%'}}
                             onClick={this.deleteParking}>
                             <DeleteOutlineOutlinedIcon/>
                         </IconButton>
                     </Tooltip>
-                </>
+                </div>
                 }
             </Grid>
-        </Card>)
+        </Card>
+        <Snackbar open={snackBar}>
+        <SnackbarContent
+           style={{backgroundColor: '#494949'}}
+            action={(
+                <IconButton onClick={e=>this.setState({snackBar: false})}>
+                    <CloseIcon/>
+                </IconButton>
+            )}
+            message='Parking cannot be edited.
+            It is reserved'
+        />
+    </Snackbar></>)
     }
 }
 const mapDispatchToProps = (dispatch) => ({
     parkingDeleted: parking => dispatch(parkingDeleted(parking)),
-    parkingEdited: parking => dispatch(parkingEdited(parking))
+    parkingEdited: parking => dispatch(parkingEdited(parking)),
+    fetchReservations:(id,token,flag)=>dispatch(fetchReservations(id,token,flag))
 })
 
 const mapStateToProps = (state /*, ownProps*/) => {

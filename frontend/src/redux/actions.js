@@ -2,12 +2,14 @@ import { USER_LOG_IN,
         PARKING_ADDED,
         PARKING_DELETED,
         PARKING_EDITED,
+        PARKINGS_MODIFIED,
         FETCH_PARKINGS_ERROR,
         FETCH_PARKINGS_PROPERLY,
         FETCH_PARKINGS_LAUNCH,
         FETCH_RESERVATIONS_LAUNCH,
         FETCH_RESERVATIONS_PROPERLY,
-        FETCH_RESERVATIONS_ERROR } from "./constants";
+        FETCH_RESERVATIONS_ERROR,
+        RESERVATIONS_MODIFIED } from "./constants";
 
 export const userLogIn = user => {
   return {
@@ -37,6 +39,13 @@ export const parkingEdited = parking =>{
   };
 };
 
+export const parkingsModified = parkings =>{
+  return {
+    type: PARKINGS_MODIFIED,
+    payload: parkings  
+  };
+};
+
 export const fetchParkingsLaunch = () => {
   return {
     type: FETCH_PARKINGS_LAUNCH
@@ -63,10 +72,10 @@ export const fetchReservationsLaunch = () => {
   };
 };
 
-export const fetchReservationsProperly = parkings => {
+export const fetchReservationsProperly = reservations => {
   return {
     type: FETCH_RESERVATIONS_PROPERLY,
-    payload: parkings
+    payload: reservations
   };
 };
 
@@ -77,11 +86,18 @@ export const fetchReservationsError = error => {
   };
 };
 
+export const reservationsModified = reservations =>{
+  return {
+    type: RESERVATIONS_MODIFIED,
+    payload: reservations  
+  };
+};
+
 export const fetchParkings = (id,token) => {
   return dispatch => {
     dispatch(fetchParkingsLaunch());
     fetch("http://localhost:8080/parkings/my-parkings/"+id,{
-      method: 'GET', // or 'PUT'
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'user_name':'parkly',
@@ -98,10 +114,27 @@ export const fetchParkings = (id,token) => {
   };
 };
   
-export const fetchReservations = () => {
+export const fetchReservations = (id,token,flag) => {
+    let url=''
+    if(flag==='parking')
+    {
+      url='http://localhost:8080/reservations/parking/'+id
+    }
+
+    else
+    {
+      url='http://localhost:8080/reservations/filter/'+id
+    }
     return dispatch => {
       dispatch(fetchReservationsLaunch());
-      fetch("http://localhost:3004/reservations")
+      fetch(url,{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'user_name':'parkly',
+          'user_token':token
+        },
+      })
         .then(res => res.json())
         .then(reservations => {
           dispatch(fetchReservationsProperly(reservations));
