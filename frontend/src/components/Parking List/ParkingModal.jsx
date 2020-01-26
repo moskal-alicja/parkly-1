@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import EditIcon from '@material-ui/icons/Edit'
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import DehazeIcon from '@material-ui/icons/Dehaze'
 import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
@@ -78,8 +77,8 @@ class ParkingModal extends React.Component{
             editMode:false,
             iSpotsNumber:props.parking.spotsNumber,
             iPrice:this.props.parking.price,
-            iOpens:new Date(props.parking.opens),
-            iCloses:new Date(props.parking.closes),
+            iOpens: new Date(1995,11,17,props.parking.opens,0,0),
+            iCloses:new Date(1995,11,17,props.parking.closes,0,0),
             priceError:'',
             spotsNumberError:''
         }
@@ -96,8 +95,6 @@ class ParkingModal extends React.Component{
     checkClick=()=>{
 
         let isOK=true
-
-        console.log(this.state.iPrice)
 
         if(!this.state.iPrice.toString().match(numberRegEx))
         {
@@ -127,16 +124,45 @@ class ParkingModal extends React.Component{
                 number: this.props.parking.number,
                 spotsNumber:parseInt(this.state.iSpotsNumber),
                 price: parseInt(this.state.iPrice),
-                opens: this.state.iOpens.toString(),
-                closes: this.state.iCloses.toString()
+                opens: new Date(this.state.iOpens).getHours(),
+                closes: new Date(this.state.iCloses).getHours(),
+                ownerId:this.props.user.id
             }
+            console.log(parking)
+            fetch('http://localhost:8080/parkings/'+parking.id, {
+                method: 'PUT', // or 'PUT'
+                headers: {
+                  'Content-Type': 'application/json',
+                  'user_name':'parkly',
+                  'user_token':this.props.user.userToken
+                },
+                body: JSON.stringify(parking)
+              })
+              .then((response) => {
+                  if(response.status===403)
+                  {
+                    console.log('parking zajety')
+                    return;
+                  }
+                  else{
+                      return response.json();
+                  }
+                })
+                .then((result) => {
+                    this.props.parkingEdited(result)
+                    this.setState({
+                        editMode:false,
+                        iSpotsNumber:parseInt(this.state.iSpotsNumber),
+                        iPrice:parseInt(this.state.iPrice)})
+                })
+                .catch((error) => {
+                console.error('Error:', error);
+                })
 
-            this.props.parkingEdited(parking)
+           
+            
             //tu do bazy
-            this.setState({
-                editMode:false,
-                iSpotsNumber:parseInt(this.state.iSpotsNumber),
-                iPrice:parseInt(this.state.iPrice)})
+           
         }
 
         
@@ -285,8 +311,8 @@ class ParkingModal extends React.Component{
                                     />
                             </Grid>
                         :<Typography variant='overline'>
-                            {new Date(opens).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})+' - '+
-                            new Date(closes).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})}
+                            {new Date(1995,11,17,opens,0,0).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})+' - '+
+                            new Date(1995,11,17,closes,0,0).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})}
                         </Typography>}
                     </Grid>
                 </MuiPickersUtilsProvider>
@@ -338,6 +364,13 @@ const mapDispatchToProps = (dispatch) => ({
     parkingDeleted: parking => dispatch(parkingDeleted(parking)),
     parkingEdited: parking => dispatch(parkingEdited(parking))
 })
+
+const mapStateToProps = (state /*, ownProps*/) => {
+    return {
+      user:state.user,
+    }
+}
+
 export default withRouter(connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps)(withStyles(styles)(ParkingModal)))

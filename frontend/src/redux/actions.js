@@ -77,10 +77,17 @@ export const fetchReservationsError = error => {
   };
 };
 
-export const fetchParkings = () => {
+export const fetchParkings = (id,token) => {
   return dispatch => {
     dispatch(fetchParkingsLaunch());
-    fetch("http://localhost:3004/parkings")
+    fetch("http://localhost:8080/parkings/my-parkings/"+id,{
+      method: 'GET', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+        'user_name':'parkly',
+        'user_token':token
+      },
+    })
       .then(res => res.json())
       .then(parkings => {
         dispatch(fetchParkingsProperly(parkings));
